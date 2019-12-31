@@ -15,7 +15,7 @@ class PdoMysqlCache extends CacheTest implements CacheI
     private $db_name = 'test';
     private $connect;
 
-    public function __construct($db_user,$db_pass,$db_host,$db_name,$tableName,$dsn, $persistent_connect = false)
+    public function __construct($db_user, $db_pass, $db_host, $db_name, $tableName, $dsn, $persistent_connect = false)
     {
         if ($persistent_connect == true) {
             $this->persistent_connect = [PDO::ATTR_PERSISTENT => true];

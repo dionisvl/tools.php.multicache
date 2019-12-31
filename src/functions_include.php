@@ -12,3 +12,16 @@ if (!function_exists("dump")) {
         echo '</pre>';
     }
 }
+
+if (!function_exists("getParam")) {
+    function getParam($param, $file)
+    {
+        $fp = fopen($file, 'r');
+        while (($line = fgets($fp)) !== false) {
+            if (preg_match("~.*\b$param(.*)~", $line, $matches)) {
+                return $matches[1];
+            }
+        }
+        return false;
+    }
+}

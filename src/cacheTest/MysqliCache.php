@@ -12,9 +12,9 @@ class MysqliCache extends CacheTest implements CacheI
     private $db_name = 'test';
     private $connect;
 
-    public function __construct($db_user,$db_pass,$db_host,$db_name,$tableName,$persistent_connect = false)
+    public function __construct($db_user, $db_pass, $db_host, $db_name, $tableName, $persistent_connect = false)
     {
-        if ($persistent_connect == true){
+        if ($persistent_connect == true) {
             $this->persistent_connect = 'p:';
         }
         $this->db_user = $db_user;
@@ -25,14 +25,15 @@ class MysqliCache extends CacheTest implements CacheI
         $this->test_data = $this->test_data();
     }
 
-    public function connect(){
+    public function connect()
+    {
         $mysqli = new \mysqli(
-            $this->persistent_connect.$this->db_host,
+            $this->persistent_connect . $this->db_host,
             $this->db_user,
             $this->db_pass,
             $this->db_name
         );
-        $this->connect=$mysqli;
+        $this->connect = $mysqli;
     }
 
     public function set()
@@ -43,7 +44,7 @@ class MysqliCache extends CacheTest implements CacheI
 //        $sql = "INSERT INTO `$this->tableName` (data)
 //          VALUES ($test_data)";
 
-        if (!$result =  $this->connect->query($sql)) {
+        if (!$result = $this->connect->query($sql)) {
             echo "Извините, возникла проблема в работе сайта.";
             echo "Ошибка: Наш запрос не удался и вот почему: \n";
             echo "Запрос: " . $sql . "\n";
@@ -66,7 +67,7 @@ class MysqliCache extends CacheTest implements CacheI
 
     public function __destruct()
     {
-        if (!empty($this->persistent_connect)){
+        if (!empty($this->persistent_connect)) {
             $this->connect->close();
         }
     }
