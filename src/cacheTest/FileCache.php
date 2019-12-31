@@ -4,7 +4,7 @@ namespace Multicache\cacheTest;
 
 class FileCache extends CacheTest implements CacheI
 {
-    public function __construct($persistent_connect = false)
+    public function __construct()
     {
         $this->test_data = $this->test_data();
     }
@@ -12,7 +12,7 @@ class FileCache extends CacheTest implements CacheI
     public function connect()
     {
         usleep(1);
-        $x = file_exists($_SERVER['DOCUMENT_ROOT'] . "/cache/xxx");
+        $x = file_exists(realpath(__DIR__.'/../..')."/cache/xxx");
     }
 
     public function set($key = 'my_cache', $val = '')
@@ -23,15 +23,15 @@ class FileCache extends CacheTest implements CacheI
         // HHVM fails at __set_state, so just use object cast for now
         $val = str_replace('stdClass::__set_state', '(object)', $val);
         // Write to temp file first to ensure atomicity
-        $tmp = $_SERVER['DOCUMENT_ROOT'] . "/cache/$key." . uniqid('', true) . '.tmp';
+        $tmp =  realpath(__DIR__.'/../..')."/cache/$key." . uniqid('', true) . '.tmp';
         file_put_contents($tmp, '<?php $val = ' . $val . ';', LOCK_EX);
-        rename($tmp, $_SERVER['DOCUMENT_ROOT'] . "/cache/$key");
+        rename($tmp, realpath(__DIR__.'/../..')."/cache/$key");
     }
 
     public function get($key = 'my_cache')
     {
         $key = $this->id;
-        include $_SERVER['DOCUMENT_ROOT'] . "/cache/$key";
+        include realpath(__DIR__.'/../..')."/cache/$key";
         return isset($val) ? $val : false;
     }
 }
